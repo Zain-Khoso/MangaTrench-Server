@@ -29,6 +29,7 @@ export const onUserCreate = region("asia-south1")
     const providerId = providerData.at(0)?.providerId;
     const userRole =
       (process.env.CREATOR_EMAIL as string) === email ? "admin" : "user";
+    const isEmailVerified = providerId !== "password";
 
     // Cleaning Google or Twitter profile URLs.
     if (photoURL) {
@@ -64,8 +65,8 @@ export const onUserCreate = region("asia-south1")
         bookmarks: [false],
         reviewsCount: 0,
         bookmarksCount: 0,
-        emailVerified: providerId !== "password",
-        OTPExpires: false,
-        OTP: "",
+        emailVerified: isEmailVerified,
+        OTPExpires: null,
+        OTP: isEmailVerified ? null : "",
       });
   });
